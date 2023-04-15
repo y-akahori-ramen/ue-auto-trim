@@ -1,83 +1,68 @@
 import cv2
 import easyocr
-import time
 from enum import Enum
 from moviepy.editor import *
+import time
 
 class Mode(Enum):
-    NONE = 0
-    START = 1
+    DETECT_TRIM_START = 0
+    DETECT_TRIM_END = 1
 
 
-time_sta = time.time()
+def trim(video_file: str,  trimfile_dist:str, trimfile_prefix: str, detect_frame_scale_x: float = 0.5, detect_frame_scale_y: float = 0.5, trim_offset_sec: float = 1.0):
+    video = cv2.VideoCapture(video_file)
+    reader = easyocr.Reader(['en'])
 
-video = cv2.VideoCapture('video.mp4')
-print(f'frame count: {video.get(cv2.CAP_PROP_FRAME_COUNT)}')
-reader = easyocr.Reader(['en'])
+    height = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
+    width = video.get(cv2.CAP_PROP_FRAME_WIDTH)
+    fps = video.get(cv2.CAP_PROP_FPS)
+    frame_to_secodns = 1.0 / float(fps)
 
-height = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
-width = video.get(cv2.CAP_PROP_FRAME_WIDTH)
-fps = video.get(cv2.CAP_PROP_FPS)
-frame_to_secodns = 1.0 / float(fps)
-print(f'height: {height}, width: {width}')
-# [([[31, 65], [177, 65], [177, 81], [31, 81]],
+    default_detect_xmax = int(float(width)*detect_frame_scale_x)
+    default_detect_ymax = int(float(height)*detect_frame_scale_y)
 
-# 最初のStart文字を見つけるまでは正確な画像位置がわからないので、画面の左上半分を対象にOCRする
+    detect_xmax = default_detect_xmax
+    detect_ymax = default_detect_ymax
 
-default_ymax = int(height/2)
-default_xmax = int(width/2)
-ymax = default_ymax
-xmax = default_xmax
+    mode = Mode.DETECT_TRIM_START
 
-mode = Mode.NONE
+    start_cound = 0
+    trim_name = ''
+    trim_info = {}
 
-start_cound = 0
-trim_name = ''
-trim_info = {}
+    count = 0
 
-count = 0
-while True:
-    ret, frame = video.read()
-    if ret:
-        # gray scale
-        # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    print('Analyzing...')
+    while True:
+        ret, frame = video.read()
+        if ret:
+            detframe = frame[0:detect_ymax, 0:detect_xmax]
+            results = reader.readtext(detframe)
+            for result in results:
+                if mode == Mode.DETECT_TRIM_START:
+                    if 'AutoTrim_Start' in result[1]:
+                        detect_xmax = int(result[0][1][0])
+                        detect_ymax = int(result[0][2][1])
+                        mode = Mode.DETECT_TRIM_END
+                        start_cound = count
+                        trim_name = result[1]
+                        print(f'Trim start detected Tag:{trim_name} FrameCount:{count} Sec:{float(start_cound) * frame_to_secodns}')
+                elif mode == Mode.DETECT_TRIM_END:
+                    if 'AutoTrim_End' in result[1]:
+                        detect_ymax = default_detect_ymax
+                        detect_xmax = default_detect_xmax
+                        mode = Mode.DETECT_TRIM_START      
+                        trim_info[trim_name] = [float(start_cound) * frame_to_secodns , float(count) * frame_to_secodns]
+                        print(f'Trim end detected Tag:{trim_name} FrameCount:{count} Sec:{float(count) * frame_to_secodns}')
+            count += 1
+        else:
+            break
 
-        # resize half size
-        # gray = cv2.resize(gray, (0, 0), fx=0.5, fy=0.5)
+    print('Cliping...')
+    for k,v in trim_info.items():
+        with VideoFileClip(video_file,fps_source='fps').subclip(v[0]-trim_offset_sec, v[1]+trim_offset_sec) as video:
+            video.write_videofile(os.path.join(trimfile_dist, f'{trimfile_prefix}_{k}.mp4'),fps=fps)
 
-        detframe = frame[0:ymax, 0:xmax]
-        results = reader.readtext(detframe)
-        for result in results:
-            if mode == Mode.NONE:
-                if 'AutoTrim_Start' in result[1]:
-                    # ymax = result
-                    print(f'StartTrim:{result[1]} Count:{count}')
-                    xmax = int(result[0][1][0])
-                    ymax = int(result[0][2][1])
-                    mode = Mode.START
-                    start_cound = count
-                    trim_name = result[1]
-                    # xmax = int(result[0][1][0] * 1.5)
-                    # print(f'xmin: {result[0][0][0]}, xmax: {result[0][1][0]}, ymin: {result[0][0][1]}, ymax: {result[0][2][1]}')
-            elif mode == Mode.START:
-                if 'AutoTrim_Stop' in result[1]:
-                    print(f'StopTrim:{result[1]} Count:{count}')
-                    ymax = default_ymax
-                    xmax = default_xmax
-                    mode = Mode.NONE      
-                    trim_info[trim_name] = [float(start_cound) * frame_to_secodns , float(count) * frame_to_secodns]
-        count += 1
-    else:
-        break
-
-for k,v in trim_info.items():
-    print(f'Clip Tag:{k} Start:{v[0]}s End:{v[1]}s')
-    with VideoFileClip("video.mp4",fps_source='fps').subclip(v[0]-0.5, v[1]+1) as video:
-        video.write_videofile(f"video_{k}.mp4",fps=fps)
-    
-# print(f'count: {count}')
-
-# video.release()
-
-tim = time.time() - time_sta
-print(tim)
+start = time.time()
+trim('video3.mp4', '.', 'trimed_video3_', 0.5,0.25)
+print(f'time:{time.time()-start}')
