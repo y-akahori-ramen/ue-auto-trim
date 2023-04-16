@@ -1,15 +1,17 @@
 import cv2
 import easyocr
 from enum import Enum
-from moviepy.editor import *
+from moviepy.editor import VideoFileClip
 import time
+import os
+
 
 class Mode(Enum):
     DETECT_TRIM_START = 0
     DETECT_TRIM_END = 1
 
 
-def trim(video_file: str,  trimfile_dist:str, trimfile_prefix: str, detect_frame_scale_x: float = 0.5, detect_frame_scale_y: float = 0.5, trim_offset_sec: float = 1.0):
+def trim(video_file: str,  trimfile_dist: str, trimfile_prefix: str, detect_frame_scale_x: float = 0.5, detect_frame_scale_y: float = 0.5, trim_offset_sec: float = 1.0):
     video = cv2.VideoCapture(video_file)
     reader = easyocr.Reader(['en'])
 
@@ -51,18 +53,19 @@ def trim(video_file: str,  trimfile_dist:str, trimfile_prefix: str, detect_frame
                     if 'AutoTrim_End' in result[1]:
                         detect_ymax = default_detect_ymax
                         detect_xmax = default_detect_xmax
-                        mode = Mode.DETECT_TRIM_START      
-                        trim_info[trim_name] = [float(start_cound) * frame_to_secodns , float(count) * frame_to_secodns]
+                        mode = Mode.DETECT_TRIM_START
+                        trim_info[trim_name] = [float(start_cound) * frame_to_secodns, float(count) * frame_to_secodns]
                         print(f'Trim end detected Tag:{trim_name} FrameCount:{count} Sec:{float(count) * frame_to_secodns}')
             count += 1
         else:
             break
 
     print('Cliping...')
-    for k,v in trim_info.items():
-        with VideoFileClip(video_file,fps_source='fps').subclip(v[0]-trim_offset_sec, v[1]+trim_offset_sec) as video:
-            video.write_videofile(os.path.join(trimfile_dist, f'{trimfile_prefix}_{k}.mp4'),fps=fps)
+    for k, v in trim_info.items():
+        with VideoFileClip(video_file, fps_source='fps').subclip(v[0]-trim_offset_sec, v[1]+trim_offset_sec) as video:
+            video.write_videofile(os.path.join(trimfile_dist, f'{trimfile_prefix}_{k}.mp4'), fps=fps)
+
 
 start = time.time()
-trim('video3.mp4', '.', 'trimed_video3_', 0.5,0.25)
+trim('video3.mp4', '.', 'trimed_video3_', 0.5, 0.25)
 print(f'time:{time.time()-start}')
