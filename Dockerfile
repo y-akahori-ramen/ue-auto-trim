@@ -1,14 +1,14 @@
-# FROM nvidia/cuda:11.8.0-base-ubuntu22.04
-# ↓普通にwindows環境だとGPU認識してくれる
-FROM ubuntu:latest
-
-RUN apt-get update
-RUN apt-get upgrade -y
-
-RUN apt-get install -y python3  python3-pip
+FROM python:3.9.16
 
 RUN pip install --upgrade pip
 RUN pip install --upgrade setuptools 
 
 RUN pip install easyocr==1.6.2
 RUN pip install moviepy==1.0.3
+
+WORKDIR /usr/trim
+COPY ./download_osr_data.py .
+RUN python download_osr_data.py
+
+COPY ./trim.py .
+ENTRYPOINT ["python", "trim.py"]

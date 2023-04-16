@@ -4,7 +4,7 @@ from enum import Enum
 from moviepy.editor import VideoFileClip
 import time
 import os
-
+import argparse
 
 class Mode(Enum):
     DETECT_TRIM_START = 0
@@ -66,6 +66,16 @@ def trim(video_file: str,  trimfile_dist: str, trimfile_prefix: str, detect_fram
             video.write_videofile(os.path.join(trimfile_dist, f'{trimfile_prefix}_{k}.mp4'), fps=fps)
 
 
-start = time.time()
-trim('video3.mp4', '.', 'trimed_video3_', 0.5, 0.25)
-print(f'time:{time.time()-start}')
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--video', type=str, required=True)
+    parser.add_argument('--dist', type=str, required=True)
+    parser.add_argument('--prefix', type=str, required=True)
+    parser.add_argument('--detect_frame_scale_x', type=float, default=0.5)
+    parser.add_argument('--detect_frame_scale_y', type=float, default=0.5)
+    parser.add_argument('--trim_offset_sec', type=float, default=1.0)
+
+    args = parser.parse_args()
+    start = time.time()
+    trim(args.video, args.dist, args.prefix, args.detect_frame_scale_x, args.detect_frame_scale_y, args.trim_offset_sec)
+    print(f'time:{time.time()-start}')
