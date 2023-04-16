@@ -59,3 +59,4 @@ docker run --rm -it --gpus=all -v /mnt/c/MyPrograms/ue-auto-trim/data:/usr/workd
 docker run --rm -it --gpus=all -v /mnt/c/MyPrograms/ue-auto-trim:/usr/trim:rw  ue-auto-trim:1.0 
 
 docker run --rm -it  -v /Volumes/Data/programs/ue-auto-trim/sampledata:/usr/workdata:rw  ue-auto-trim:1.0 --video /usr/workdata/sample.mp4 --dist /usr/workdata --prefix from_docker
+docker run --rm -it  -v /mnt/c/MyPrograms/ue-auto-trim:/usr/workdata:rw  ue-auto-trim:1.0 --video /usr/workdata/sample.mp4 --dist /usr/workdata --prefix from_docker
