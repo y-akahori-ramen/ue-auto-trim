@@ -6,6 +6,7 @@ import time
 import os
 import argparse
 
+
 class Mode(Enum):
     DETECT_TRIM_START = 0
     DETECT_TRIM_END = 1

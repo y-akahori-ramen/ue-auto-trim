@@ -1,5 +1,9 @@
 FROM python:3.9.16
 
+RUN apt update
+RUN apt upgrade
+RUN apt install  --yes ffmpeg
+
 RUN pip install --upgrade pip
 RUN pip install --upgrade setuptools 
 
