@@ -7,8 +7,8 @@ RUN apt install  --yes ffmpeg
 RUN pip install --upgrade pip
 RUN pip install --upgrade setuptools 
 
-RUN pip install easyocr==1.6.2
-RUN pip install moviepy==1.0.3
+COPY ./requirements.txt .
+RUN pip install -r requirements.txt
 
 WORKDIR /usr/trim
 COPY ./download_osr_data.py .
