@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "UEAutoTrim",
+	"Description": "A tool for UnrealEngine that automatically trims captured video.",
+	"Category": "Other",
+	"CreatedBy": "y-akahori-ramen",
+	"CreatedByURL": "https://github.com/y-akahori-ramen/ue-auto-trim",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "UEAutoTrim",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
