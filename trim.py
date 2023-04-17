@@ -12,13 +12,19 @@ class Mode(Enum):
     DETECT_TRIM_END = 1
 
 
-def trim(video_file: str,  trimfile_dist: str, trimfile_prefix: str, detect_frame_scale_x: float = 0.5, detect_frame_scale_y: float = 0.5, trim_offset_sec: float = 1.0):
+def trim(
+        video_file: str,  trimfile_dist: str, trimfile_prefix: str,
+        detect_frame_scale_x: float = 0.5, detect_frame_scale_y: float = 0.5,
+        trim_offset_sec: float = 1.0):
+    """Trim video file by AutoTrim_Start and AutoTrim_End tag
+    """
     video = cv2.VideoCapture(video_file)
     reader = easyocr.Reader(['en'])
 
     height = video.get(cv2.CAP_PROP_FRAME_HEIGHT)
     width = video.get(cv2.CAP_PROP_FRAME_WIDTH)
     fps = video.get(cv2.CAP_PROP_FPS)
+    total_frame = video.get(cv2.CAP_PROP_FRAME_COUNT)
     frame_to_secodns = 1.0 / float(fps)
 
     default_detect_xmax = int(float(width)*detect_frame_scale_x)
@@ -49,6 +55,9 @@ def trim(video_file: str,  trimfile_dist: str, trimfile_prefix: str, detect_fram
                         mode = Mode.DETECT_TRIM_END
                         start_cound = count
                         trim_name = result[1]
+                        trim_name = trim_name.replace('AutoTrim_Start', '')
+                        if trim_name in trim_info:
+                            trim_name = f'{trim_name}_{count}'
                         print(f'Trim start detected Tag:{trim_name} FrameCount:{count} Sec:{float(start_cound) * frame_to_secodns}')
                 elif mode == Mode.DETECT_TRIM_END:
                     if 'AutoTrim_End' in result[1]:
@@ -63,7 +72,9 @@ def trim(video_file: str,  trimfile_dist: str, trimfile_prefix: str, detect_fram
 
     print('Cliping...')
     for k, v in trim_info.items():
-        with VideoFileClip(video_file, fps_source='fps').subclip(v[0]-trim_offset_sec, v[1]+trim_offset_sec) as video:
+        t_start = max(v[0]-trim_offset_sec, 0)
+        t_end = min(v[1]+trim_offset_sec, total_frame*frame_to_secodns)
+        with VideoFileClip(video_file, fps_source='fps').subclip(t_start, t_end) as video:
             video.write_videofile(os.path.join(trimfile_dist, f'{trimfile_prefix}_{k}.mp4'), fps=fps)
 
 

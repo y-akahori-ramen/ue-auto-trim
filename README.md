@@ -1,5 +1,5 @@
 # ue-auto-trim
-A tool for UnrealEngine that automatically trims captured video.
+A tools for UnrealEngine that automatically trims captured video.
 
 - UnrealEngine plug-in to display trimming tags
 - A tool that analyzes the video trimming tags and splits the video within the range of the tags
@@ -30,6 +30,7 @@ NVIDIA Container Toolkit is required to use GPU with container.
 https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker
 
 
+TODO: タグが重複した場合、自動で連番を振る
 
 
 # torchvision torchaudio
