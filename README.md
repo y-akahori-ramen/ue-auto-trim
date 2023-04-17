@@ -1,6 +1,33 @@
 # ue-auto-trim
 A tool for UnrealEngine that automatically trims captured video.
 
+- UnrealEngine plug-in to display trimming tags
+- A tool that analyzes the video trimming tags and splits the video within the range of the tags
+
+# How it works
+Step1. Implemented trimming tag to game
+Step2. Play Game and Capture Video
+Step3. Analyze the captured video and clip the video within the range of the trimming tag
+
+# Use Case
+- Clipping a player's special skill from a captured video
+- Clipping the location where the player is knocked down by the enemy from the captured video
+
+# How to display trimming tags
+
+# How to trim video
+## 1. Build Docker image
+```
+docker buildx build -t ue-auto-trim:1.0 .
+```
+
+## 2.Run
+```
+docker run --rm -it  --gpus=all -v {path_to_sampledata_dir}:/usr/work:rw  ue-auto-trim:1.0 --video /usr/work/sample.mp4 --dist /usr/work --prefix from_docker
+```
+
+NVIDIA Container Toolkit is required to use GPU with container.
+https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker
 
 
 
@@ -59,4 +86,4 @@ docker run --rm -it --gpus=all -v /mnt/c/MyPrograms/ue-auto-trim/data:/usr/workd
 docker run --rm -it --gpus=all -v /mnt/c/MyPrograms/ue-auto-trim:/usr/trim:rw  ue-auto-trim:1.0 
 
 docker run --rm -it  -v /Volumes/Data/programs/ue-auto-trim/sampledata:/usr/workdata:rw  ue-auto-trim:1.0 --video /usr/workdata/sample.mp4 --dist /usr/workdata --prefix from_docker
-docker run --rm -it  -v /mnt/c/MyPrograms/ue-auto-trim:/usr/workdata:rw  ue-auto-trim:1.0 --video /usr/workdata/sample.mp4 --dist /usr/workdata --prefix from_docker
+docker run --rm -it  --gpus=all -v /mnt/c/MyPrograms/ue-auto-trim/sampledata:/usr/workdata:rw  ue-auto-trim:1.0 --video /usr/workdata/sample.mp4 --dist /usr/workdata --prefix from_docker
