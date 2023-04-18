@@ -18,16 +18,16 @@ Tools
 3. Analyze the captured video
 
 ## 1. Implement trimming tag to game
-## 1-1. Add plugin to unreal engine project
+### 1-1. Add plugin to unreal engine project
 
 
-## 1-2. Implement displaying tag in game
+### 1-2. Implement displaying tag in game
 
 ## 2. Play Game and Capture Video
 Play the game and capture the video with capturing software. (eg. windows game bar)
 
 ## 3. Analyze the captured video
-## 3-1. Build Docker image
+### 3-1. Build Docker image
 ```
 docker buildx build -t ue-auto-trim:1.0 .
 ```
@@ -35,7 +35,7 @@ docker buildx build -t ue-auto-trim:1.0 .
 Reccomend to use Docker to avoid environment problems.  
 If you want to use without Docker, reference [Dockerfile](./Dockerfile) to setup environment.
 
-## 3-2.Run
+### 3-2.Run
 ```
 docker run --rm -it  --gpus=all -v {path_to_videodata_dir}:/usr/work:rw  ue-auto-trim:1.0 --video /usr/work/sample.mp4 --dist /usr/work --prefix sample_
 ```
