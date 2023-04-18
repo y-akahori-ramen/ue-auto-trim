@@ -32,7 +32,7 @@ Play the game and capture the video with capturing software. (eg. windows game b
 docker buildx build -t ue-auto-trim:1.0 .
 ```
 
-Reccomend to use Docker to avoid environment problems.  
+Reccomend to use Docker to avoid environmental problems.  
 If you want to use without Docker, reference [Dockerfile](./Dockerfile) to setup environment.
 
 ### 3-2.Run
