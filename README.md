@@ -4,9 +4,6 @@ A tools for UnrealEngine that automatically trims captured video.
 Tools
 - UnrealEngine plugin to implement trimming tags
 - Python script to trim video based on tags
-
-# Demo
-
 # Use Case
 - Clipping a player's special skill from a captured video
 - Clipping the location where the player is killed by the enemy from the captured video
@@ -16,6 +13,9 @@ Tools
 1. Implement trimming tag to game  
 2. Play Game and Capture Video  
 3. Analyze the captured video
+
+**Demo**
+ここにデモ動画
 
 ## 1. Implement trimming tag to game
 ### 1-1. Add plugin to unreal engine project
