@@ -1,17 +1,20 @@
 # ue-auto-trim
 A tools for UnrealEngine that automatically trims captured video.
 
-- UnrealEngine plug-in to display trimming tags
-- A tool that analyzes the video trimming tags and splits the video within the range of the tags
+Tools
+- UnrealEngine plugin to implement trimming tags
+- Python script to trim video based on tags
 
-# How it works
-Step1. Implemented trimming tag to game
-Step2. Play Game and Capture Video
-Step3. Analyze the captured video and clip the video within the range of the trimming tag
+# Demo
 
 # Use Case
 - Clipping a player's special skill from a captured video
 - Clipping the location where the player is knocked down by the enemy from the captured video
+
+# How to use
+Step1. Implement trimming tag to game  
+Step2. Play Game and Capture Video  
+Step3. Analyze the captured video and clip the video within the range of the trimming tag
 
 # How to display trimming tags
 
@@ -21,70 +24,25 @@ Step3. Analyze the captured video and clip the video within the range of the tri
 docker buildx build -t ue-auto-trim:1.0 .
 ```
 
+Reccomend to use Docker to avoid environment problems.  
+If you want to use without Docker, reference Dockerfile to setup environment.
+
 ## 2.Run
 ```
 docker run --rm -it  --gpus=all -v {path_to_sampledata_dir}:/usr/work:rw  ue-auto-trim:1.0 --video /usr/work/sample.mp4 --dist /usr/work --prefix from_docker
 ```
+| Argument | Description |
+|:-|:-|
+| --video | video file path |
+| --dist | trim file dist path |
+| --prefix | trim file prefix |
+| --detect_frame_scale_x | determine the size x of the frame to be detected. 0..1 |
+| --detect_frame_scale_y | determine the size y of the frame to be detected. 0..1 |
+| --trim_offset_sec | offset seconds from tag to determine start and end trimming position. |
 
-NVIDIA Container Toolkit is required to use GPU with container.
+### To use GPU with container
+NVIDIA Container Toolkit is required.
+
+Check the following URL for installation.  
 https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker
 
-
-TODO: タグが重複した場合、自動で連番を振る
-
-
-# torchvision torchaudio
-
-python 3.9.13
-CUDA 11.8
-
-pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-
-いまだとgitのリポジトリを直接installしないとエラーがでる
-pip3 install git+https://github.com/JaidedAI/EasyOCR.git
-
-
-pip3 install moviepy
-
-
-apt update
-apt upgrade
-
-
-C:\MyPrograms\ue-auto-trim\video3.mp4
-
- libbz2-dev
-docker run --rm -it  --gpus=all -v C:\MyPrograms\ue-auto-trim\:/usr/trim:rw ue-auto-trim:1.0 
-
-
-最初に言語データのinstallが入るので、そこだけはdockerfile内でやっておくとよい
-
-こんてなで実行した場合     111秒
-windowsから実行した場合  142秒
-おそらく、誤差だろう
-
-docker run --rm -it  --gpus=all -v C:\MyPrograms\ue-auto-trim\:/usr/trim:rw ue-auto-trim-pure:1.0
-
-
-docker run --rm -it --gpus=all -v /mnt/c/MyPrograms/ue-auto-trim:/usr/trim:rw -w /usr/trim ue-auto-trim:1.0
-docker run --rm -it --gpus=all -v /mnt/c/MyPrograms/ue-auto-trim:/usr/trim:rw ue-auto-trim:1.0
-docker run --rm -it --gpus=all -v /mnt/c/MyPrograms/ue-auto-trim:/usr/trim:rw ue-auto-trim-pure:1.0
-
-docker desktopを使っているとNVIDIAのイメージから作らなくてもGPU使ってくれる
-
-
-docker run --rm -it --gpus=all -v /mnt/c/MyPrograms/ue-auto-trim:/usr/trim:rw  -w /usr/trim  ue-auto-trim-pure:1.0 python3 hello.py  
-
-
-docker buildx build -t ue-auto-trim:1.0 .
-
-docker run --rm -it --gpus=all -v /mnt/c/MyPrograms/ue-auto-trim:/usr/trim:rw  -w /usr/trim  ue-auto-trim:1.0 python3 hello.py  
-
-
-
-docker run --rm -it --gpus=all -v /mnt/c/MyPrograms/ue-auto-trim/data:/usr/workdata:rw  ue-auto-trim:1.0 --video /usr/workdata/video3.mp4 --dist /usr/workdata --prefix from_docker
-
-docker run --rm -it --gpus=all -v /mnt/c/MyPrograms/ue-auto-trim:/usr/trim:rw  ue-auto-trim:1.0 
-
-docker run --rm -it  -v /Volumes/Data/programs/ue-auto-trim/sampledata:/usr/workdata:rw  ue-auto-trim:1.0 --video /usr/workdata/sample.mp4 --dist /usr/workdata --prefix from_docker
-docker run --rm -it  --gpus=all -v /mnt/c/MyPrograms/ue-auto-trim/sampledata:/usr/workdata:rw  ue-auto-trim:1.0 --video /usr/workdata/sample.mp4 --dist /usr/workdata --prefix from_docker

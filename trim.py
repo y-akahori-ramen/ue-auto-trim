@@ -14,8 +14,8 @@ class Mode(Enum):
 
 def trim(
         video_file: str,  trimfile_dist: str, trimfile_prefix: str,
-        detect_frame_scale_x: float = 0.5, detect_frame_scale_y: float = 0.5,
-        trim_offset_sec: float = 1.0):
+        detect_frame_scale_x: float, detect_frame_scale_y: float,
+        trim_offset_sec: float):
     """Trim video file by AutoTrim_Start and AutoTrim_End tag
     """
     video = cv2.VideoCapture(video_file)
@@ -79,13 +79,13 @@ def trim(
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--video', type=str, required=True)
-    parser.add_argument('--dist', type=str, required=True)
-    parser.add_argument('--prefix', type=str, required=True)
-    parser.add_argument('--detect_frame_scale_x', type=float, default=0.5)
-    parser.add_argument('--detect_frame_scale_y', type=float, default=0.5)
-    parser.add_argument('--trim_offset_sec', type=float, default=1.0)
+    parser = argparse.ArgumentParser(description='Trim video file by AutoTrim_Start and AutoTrim_End tag')
+    parser.add_argument('--video', type=str, required=True, help='video file path')
+    parser.add_argument('--dist', type=str, required=True, help='trim file dist path')
+    parser.add_argument('--prefix', type=str, required=True, help='trim file prefix')
+    parser.add_argument('--detect_frame_scale_x', type=float, default=0.5, help='determine the size x of the frame to be detected. 0..1')
+    parser.add_argument('--detect_frame_scale_y', type=float, default=0.5, help='determine the size y of the frame to be detected. 0..1')
+    parser.add_argument('--trim_offset_sec', type=float, default=1.0,  help='offset seconds from tag to determine start and end trimming position.')
 
     args = parser.parse_args()
     start = time.time()
