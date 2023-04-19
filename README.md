@@ -14,14 +14,25 @@ Tools
 2. Play Game and Capture Video  
 3. Analyze the captured video
 
-**Demo**
-ここにデモ動画
-
 ## 1. Implement trimming tag to game
 ### 1-1. Add plugin to unreal engine project
-
+Copy the [UEAutoTrim plugin folder](./Plugins/UEAutoTrim/) to the project's plugin folder.  
+Then, enable the plugin in the project.
 
 ### 1-2. Implement displaying tag in game
+
+Display the tag in the game by calling the following function through the UUEAutoTrimSystem subsystem.  
+
+| Function | Description |
+|:-|:-|
+|Start|Start displaying tag.|
+|End|End displaying tag.|
+
+For Example
+
+![](./DocResources/display_tag_example.png)
+
+There are also functions to set the display position and color of tags. Please check [UEAutoTrimSystem.h](./Plugins/UEAutoTrim/Source/UEAutoTrim/Public/UEAutoTrimSystem.h) for details.
 
 ## 2. Play Game and Capture Video
 Play the game and capture the video with capturing software. (eg. windows game bar)
