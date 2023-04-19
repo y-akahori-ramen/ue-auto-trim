@@ -1,3 +1,4 @@
+[日本語版](./README_JP.md)
 # Overview
 A tools for UnrealEngine that automatically trims captured video.
 
@@ -34,8 +35,8 @@ Display the tag in the game by calling the following function through the UUEAut
 
 | Function | Description |
 |:-|:-|
-|Start|Start displaying tag.|
-|End|End displaying tag.|
+|Start|Displays the clip start tag.|
+|End|Displays the clip end tag.|
 
 For Example
 
@@ -52,7 +53,7 @@ Play the game and capture the video with capturing software. (eg. windows game b
 docker buildx build -t ue-auto-trim:1.0 .
 ```
 
-Reccomend to use Docker to avoid environmental problems.  
+Reccomend to use Docker to avoid development environmental problems.  
 If you want to use without Docker, reference [Dockerfile](./Dockerfile) to setup environment.
 
 ### 3-2.Run
