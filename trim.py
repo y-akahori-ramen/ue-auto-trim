@@ -56,6 +56,7 @@ def trim(
                         start_cound = count
                         trim_name = result[1]
                         trim_name = trim_name.replace('AutoTrim_Start', '')
+                        trim_name = trim_name.replace(' ', '')
                         if trim_name in trim_info:
                             trim_name = f'{trim_name}_{count}'
                         print(f'Trim start detected Tag:{trim_name} FrameCount:{count} Sec:{float(start_cound) * frame_to_secodns}')
@@ -75,7 +76,7 @@ def trim(
         t_start = max(v[0]-trim_offset_sec, 0)
         t_end = min(v[1]+trim_offset_sec, total_frame*frame_to_secodns)
         with VideoFileClip(video_file, fps_source='fps').subclip(t_start, t_end) as video:
-            video.write_videofile(os.path.join(trimfile_dist, f'{trimfile_prefix}_{k}.mp4'), fps=fps)
+            video.write_videofile(os.path.join(trimfile_dist, f'{trimfile_prefix}{k}.mp4'), fps=fps)
 
 
 if __name__ == '__main__':
