@@ -1,12 +1,21 @@
-# ue-auto-trim
+# Overview
 A tools for UnrealEngine that automatically trims captured video.
 
-Tools
-- UnrealEngine plugin to implement trimming tags
-- Python script to trim video based on tags
-# Use Case
+This tools implements the tags displayed in the upper left corner of the screen and clips the video based on the tags.
+
+## Use Case
 - Clipping a player's special skill from a captured video
 - Clipping the location where the player is killed by the enemy from the captured video
+
+
+## Demo
+Source video.
+
+https://user-images.githubusercontent.com/103555/233125625-2da462e4-ccc7-4699-991a-c5109564143c.mp4
+
+One of the clipped videos.
+
+https://user-images.githubusercontent.com/103555/233129023-53fa03ed-24f2-4305-9f50-db08587ddc01.mp4
 
 # How to use
 
