@@ -31,7 +31,7 @@ Then, enable the plugin in the project.
 
 ### 1-2. Implement displaying tag in game
 
-Display the tag in the game by calling the following function through the UUEAutoTrimSystem subsystem.  
+Display the tag in the game by calling the following function through the UEAutoTrimSystem subsystem.  
 
 | Function | Description |
 |:-|:-|

@@ -29,7 +29,7 @@ https://user-images.githubusercontent.com/103555/233129023-53fa03ed-24f2-4305-9f
 
 ### 1-2. タグ表示をゲームに実装する
 
-UUEAutoTrimSystemサブシステムを通じて以下の関数を呼び出すことでタグ表示が可能です。
+UEAutoTrimSystemサブシステムを通じて以下の関数を呼び出すことでタグ表示が可能です。
 
 | 関数 | 内容 |
 |:-|:-|
