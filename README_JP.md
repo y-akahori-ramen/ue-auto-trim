@@ -51,7 +51,7 @@ UUEAutoTrimSystemサブシステムを通じて以下の関数を呼び出すこ
 docker buildx build -t ue-auto-trim:1.0 .
 ```
 
-開発環境問題を回避するためにDockerを使用することを推奨します。 
+開発環境問題を回避するためにDockerを使用することを推奨します。   
 Dockerを使用しない場合は、[Dockerfile](./Dockerfile)を参照し、環境を構築してください。
 
 ### 3-2.実行
