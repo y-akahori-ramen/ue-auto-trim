@@ -2,11 +2,11 @@
 # Overview
 A tools for UnrealEngine that automatically trims captured video.
 
-This tools implements the tags displayed in the upper left corner of the screen and clips the video based on the tags.
+This tool implements the tags displayed in the upper left corner of the screen and clips the video based on the tags.
 
 ## Use Case
-- Clipping a player's special skill from a captured video
-- Clipping the location where the player is killed by the enemy from the captured video
+- Trimming a player's special skill from a captured video
+- Trimming the location where the player is killed by the enemy from the captured video
 
 
 ## Demo
@@ -21,11 +21,11 @@ https://user-images.githubusercontent.com/103555/233129023-53fa03ed-24f2-4305-9f
 # How to use
 
 1. Implement trimming tag to game  
-2. Play Game and Capture Video  
+2. Play the game and capture the video  
 3. Analyze the captured video
 
 ## 1. Implement trimming tag to game
-### 1-1. Add plugin to unreal engine project
+### 1-1. Add the plugin to unreal engine project
 Copy the [UEAutoTrim plugin folder](./Plugins/UEAutoTrim/) to the project's plugin folder.  
 Then, enable the plugin in the project.
 
@@ -44,7 +44,7 @@ For Example
 
 There are also functions to set the display position and color of tags. Please check [UEAutoTrimSystem.h](./Plugins/UEAutoTrim/Source/UEAutoTrim/Public/UEAutoTrimSystem.h) for details.
 
-## 2. Play Game and Capture Video
+## 2. Play the game and capture the video
 Play the game and capture the video with capturing software. (eg. windows game bar)
 
 ## 3. Analyze the captured video
@@ -53,7 +53,7 @@ Play the game and capture the video with capturing software. (eg. windows game b
 docker buildx build -t ue-auto-trim:1.0 .
 ```
 
-Reccomend to use Docker to avoid development environmental problems.  
+Recommend to use Docker to avoid development environmental problems.  
 If you want to use without Docker, reference [Dockerfile](./Dockerfile) to setup environment.
 
 ### 3-2.Run
@@ -63,11 +63,11 @@ docker run --rm -it  --gpus=all -v {path_to_videodata_dir}:/usr/work:rw  ue-auto
 | Argument | Description |
 |:-|:-|
 | --video | video file path |
-| --dist | trim file dist path |
+| --dist | path to the directory where trimmed files will be saved |
 | --prefix | trim file prefix |
-| --detect_frame_scale_x | determine the size x of the frame to be detected. 0..1 |
-| --detect_frame_scale_y | determine the size y of the frame to be detected. 0..1 |
-| --trim_offset_sec | offset seconds from tag to determine start and end trimming position. |
+| --detect_frame_scale_x | set the detection scale for the frame's width. 0..1 |
+| --detect_frame_scale_y | set the detection scale for the frame's height. 0..1 |
+| --trim_offset_sec | set the offset time in seconds from the tag to determine the start and end trimming position. |
 
 **NVIDIA Container Toolkit is required to use GPU with container**  
 Check the following URL for installation.  
