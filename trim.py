@@ -16,7 +16,15 @@ def trim(
         video_file: str,  trimfile_dist: str, trimfile_prefix: str,
         detect_frame_scale_x: float, detect_frame_scale_y: float,
         trim_offset_sec: float):
-    """Trim video file by AutoTrim_Start and AutoTrim_End tag
+    """Trim video file by AutoTrim_Start and AutoTrim_End tag.
+
+    Args:
+        video_file (str): video file path
+        trimfile_dist (str): path to the directory where trimmed files will be saved.
+        trimfile_prefix (str): path to the directory where trimmed files will be saved.
+        detect_frame_scale_x (float): set the detection scale for the frame's width. 0..1
+        detect_frame_scale_y (float): set the detection scale for the frame's height. 0..1
+        trim_offset_sec (float): set the offset time in seconds from the tag to determine the start and end trimming position.
     """
     video = cv2.VideoCapture(video_file)
     reader = easyocr.Reader(['en'])
@@ -80,13 +88,13 @@ def trim(
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Trim video file by AutoTrim_Start and AutoTrim_End tag')
+    parser = argparse.ArgumentParser(description='Trim video file by AutoTrim_Start and AutoTrim_End tag.')
     parser.add_argument('--video', type=str, required=True, help='video file path')
-    parser.add_argument('--dist', type=str, required=True, help='trim file dist path')
+    parser.add_argument('--dist', type=str, required=True, help='path to the directory where trimmed files will be saved.')
     parser.add_argument('--prefix', type=str, required=True, help='trim file prefix')
-    parser.add_argument('--detect_frame_scale_x', type=float, default=0.5, help='determine the size x of the frame to be detected. 0..1')
-    parser.add_argument('--detect_frame_scale_y', type=float, default=0.5, help='determine the size y of the frame to be detected. 0..1')
-    parser.add_argument('--trim_offset_sec', type=float, default=1.0,  help='offset seconds from tag to determine start and end trimming position.')
+    parser.add_argument('--detect_frame_scale_x', type=float, default=0.5, help="set the detection scale for the frame's width. 0..1")
+    parser.add_argument('--detect_frame_scale_y', type=float, default=0.5, help="set the detection scale for the frame's height. 0..1")
+    parser.add_argument('--trim_offset_sec', type=float, default=1.0,  help='set the offset time in seconds from the tag to determine the start and end trimming position.')
 
     args = parser.parse_args()
     start = time.time()

@@ -63,7 +63,7 @@ docker run --rm -it  --gpus=all -v {path_to_videodata_dir}:/usr/work:rw  ue-auto
 | Argument | Description |
 |:-|:-|
 | --video | video file path |
-| --dist | path to the directory where trimmed files will be saved |
+| --dist | path to the directory where trimmed files will be saved. |
 | --prefix | trim file prefix |
 | --detect_frame_scale_x | set the detection scale for the frame's width. 0..1 |
 | --detect_frame_scale_y | set the detection scale for the frame's height. 0..1 |
